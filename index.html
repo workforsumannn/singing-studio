@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Pro V1 | Vocal Polish</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+
+        <header class="header">
+            <div class="brand">
+                <div class="logo-box"><span>SP</span></div>
+                <div class="brand-info">
+                    <h1>Studio Pro</h1>
+                    <span class="badge">V1 Vocal</span>
+                </div>
+            </div>
+            <div class="dev-info">
+                <span class="label">Developer</span>
+                <span class="name">Suman</span>
+            </div>
+        </header>
+
+        <main class="main-content">
+
+            <section class="presets-section">
+                <div class="preset-card active" data-preset="bollywood">
+                    <h3>Bollywood</h3>
+                    <p>Warm polished vocal</p>
+                </div>
+                <div class="preset-card" data-preset="acoustic">
+                    <h3>Acoustic</h3>
+                    <p>Natural and raw feel</p>
+                </div>
+                <div class="preset-card" data-preset="pop">
+                    <h3>Pop</h3>
+                    <p>Crisp and bright</p>
+                </div>
+                <div class="preset-card" data-preset="lofi">
+                    <h3>Lo-fi</h3>
+                    <p>Chill and warm vibe</p>
+                </div>
+            </section>
+
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="record">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                        <line x1="12" y1="19" x2="12" y2="23"></line>
+                        <line x1="8" y1="23" x2="16" y2="23"></line>
+                    </svg>
+                    Record
+                </button>
+                <button class="tab-btn" data-tab="upload">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    Upload
+                </button>
+            </div>
+
+            <div class="panel active" id="record-panel">
+                <div class="recording-interface">
+                    <button id="mic-btn" class="mic-btn">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                    </button>
+                    <div class="timer-display" id="timer">00:00</div>
+                    <div class="status-text" id="rec-status">Tap to start recording</div>
+                    <canvas id="waveform-canvas" width="600" height="100"></canvas>
+                </div>
+            </div>
+
+            <div class="panel" id="upload-panel">
+                <div class="drop-zone" id="drop-zone">
+                    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p>Audio file yahan drop karo ya click karo</p>
+                    <small>WAV, MP3, M4A, OGG supported</small>
+                    <input type="file" id="file-input" accept="audio/*" hidden>
+                </div>
+                <div id="selected-file-name" class="file-name"></div>
+            </div>
+
+            <section class="controls-section">
+                <div class="sliders-group">
+                    <div class="slider-control">
+                        <label>Autotune Strength</label>
+                        <input type="range" min="0" max="100" value="70" id="autotune">
+                        <span class="value" id="val-autotune">70</span>
+                    </div>
+                    <div class="slider-control">
+                        <label>Reverb Space</label>
+                        <input type="range" min="0" max="100" value="35" id="reverb">
+                        <span class="value" id="val-reverb">35</span>
+                    </div>
+                    <div class="slider-control">
+                        <label>Vocal Warmth</label>
+                        <input type="range" min="0" max="100" value="60" id="warmth">
+                        <span class="value" id="val-warmth">60</span>
+                    </div>
+                    <div class="slider-control">
+                        <label>Output Gain</label>
+                        <input type="range" min="50" max="200" value="110" id="gain">
+                        <span class="value" id="val-gain">110</span>
+                    </div>
+                </div>
+
+                <div class="toggles-group">
+                    <div class="toggle-item">
+                        <span>Studio Compression</span>
+                        <label class="switch">
+                            <input type="checkbox" checked id="tog-compression">
+                            <span class="slider-track"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-item">
+                        <span>De-esser</span>
+                        <label class="switch">
+                            <input type="checkbox" checked id="tog-deesser">
+                            <span class="slider-track"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-item">
+                        <span>Limiter</span>
+                        <label class="switch">
+                            <input type="checkbox" checked id="tog-limiter">
+                            <span class="slider-track"></span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <button id="process-btn" class="process-btn" disabled>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                Studio Magic Apply Karo
+            </button>
+
+            <div class="loading-state hidden" id="loader">
+                <div class="spinner"></div>
+                <p id="loading-text">Audio decode ho raha hai...</p>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="error-box hidden" id="error-box">
+                <p id="error-msg">Error message here</p>
+            </div>
+
+            <div class="result-section hidden" id="result-section">
+                <div class="success-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <h2>Aapka Studio Version Ready Hai</h2>
+                </div>
+
+                <audio id="result-audio" controls class="audio-player"></audio>
+
+                <div class="download-buttons">
+                    <button id="dl-wav" class="btn dl-wav">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download WAV
+                    </button>
+                    <button id="dl-mp3" class="btn dl-mp3">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                        </svg>
+                        Download MP3
+                    </button>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="footer">
+            <div class="dot-separator"></div>
+            <p>Studio Pro V1 Premium · Developed by Suman</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
